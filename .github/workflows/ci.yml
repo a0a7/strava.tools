@@ -1,0 +1,68 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CI: true
+  PNPM_CACHE_FOLDER: .pnpm-store
+  PUBLIC_MAPTILER_KEY: ${{secrets.MAPTILER_KEY}}
+  PUBLIC_STRAVA_ID: ${{secrets.PUBLIC_STRAVA_ID}}
+  STRAVA_SECRET: ${{secrets.STRAVA_SECRET}}
+  AUTH_SECRET: ${{secrets.AUTH_SECRET}}
+
+# cancel in-progress runs on new commits to same PR (gitub.event.number)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Make envfile
+        run: |
+          echo "PUBLIC_MAPTILER_KEY=${PUBLIC_MAPTILER_KEY}" >> .env
+          echo "PUBLIC_STRAVA_ID=${PUBLIC_STRAVA_ID}" >> .env
+          echo "STRAVA_SECRET=${STRAVA_SECRET}" >> .env
+          echo "AUTH_SECRET=${AUTH_SECRET}" >> .env
+
+      - run: pnpm format
+      - run: pnpm lint
+      - run: pnpm build
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: npx playwright install --with-deps

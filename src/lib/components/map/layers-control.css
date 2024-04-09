@@ -1,0 +1,20 @@
+.button-container .options {
+	margin-left: 0px !important;
+}
+
+.map-button.maplibregl-map {
+	position: relative !important;
+	border: 0px solid transparent !important;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+.main-button > :first-child {
+	border: 3px solid #3c5c7a !important;
+}
+
+@media (max-width: 768px) {
+	.button-container {
+		width: 91%;
+		overflow-x: scroll;
+		overflow-y: hidden;
+	}
+}
