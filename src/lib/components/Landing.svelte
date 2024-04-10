@@ -10,7 +10,7 @@
 <div class="flex flex-col justify-center items-center w-full">
     <div class="flex flex-col items-center justify-center font-bold px-4 pt-24">
         <h1 class="z-10 text-6xl md:text-[5rem] font-bold">strava.tools</h1>
-        <p class="z-10 text-3xl font-bold md:pt-6">Insights & Visuals</p>
+        <h2 class="z-10 text-3xl font-bold md:pt-6 text-center">Insights&nbsp;&&nbsp;Visuals for&nbsp;Strava</h2>
         <svg
             class="-mt-[175px] text-card dark:text-border"
             xmlns="http://www.w3.org/2000/svg"
