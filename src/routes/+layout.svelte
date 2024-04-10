@@ -17,9 +17,11 @@
 </script>
 
 <ModeWatcher themeColors={{ dark: 'black', light: 'white' }} />
-{#if $navigating}
-	<Loading />
-{/if}
-<Header {onMobile} />
-<slot {onMobile}/>
+<div class="min-h-screen">
+	<Header {onMobile} />
+	{#if $navigating}
+		<Loading />
+	{/if}
+	<slot {onMobile}/>
+</div>
 <Footer {onMobile} />
