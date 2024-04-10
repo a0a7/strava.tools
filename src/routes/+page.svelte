@@ -5,18 +5,10 @@
 	import '$lib/components/sidebar/resizable-handle.css';
 	import Footer from '$lib/components/sidebar/Footer.svelte';
 	import { onMount } from 'svelte';
-
+	import Header from '$lib/components/Header.svelte';
 	import { page } from '$app/stores';
 	console.log($page.data.session);
-
-	let onMobile: boolean;
-
-	$: deviceTypeKnown = typeof onMobile !== 'undefined';
-
-	onMount(() => {
-		// Mobile device detection
-		onMobile = window.innerWidth <= 768;
-	});
+	export let onMobile: boolean;
 </script>
 
 
