@@ -8,9 +8,10 @@
 	export let sessionExpired: boolean = false;
 </script>
 <div class="flex flex-col justify-center items-center w-full">
-    <div class="flex flex-col items-center justify-center font-bold px-4 pt-24">
+    <div class="flex flex-col items-center justify-center px-4 pt-24">
         <h1 class="z-10 text-6xl md:text-[5rem] font-bold">strava.tools</h1>
-        <h2 class="z-10 text-3xl font-bold md:pt-6 text-center">Insights&nbsp;&&nbsp;Visuals for&nbsp;Strava</h2>
+        <h2 class="z-10 font-bold text-3xl text-center">Insights&nbsp;&&nbsp;Visuals for&nbsp;Strava</h2>
+        <h2 class="z-10 opacity-50 text-md md:pt-1 text-center">Not affiliated with or endorsed by Strava, Inc.</h2>
         <svg
             class="-mt-[175px] text-card dark:text-border"
             xmlns="http://www.w3.org/2000/svg"

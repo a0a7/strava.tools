@@ -1,8 +1,8 @@
 <script lang="ts">
     export let onMobile: boolean;
 </script>
-<footer class="py-6">
-	<div class="container flex flex-col items-center justify-center gap-4 md:h-24 md:flex-row">
+<footer class="pt-10 pb-6">
+	<div class="container flex flex-col items-center justify-center gap-4 md:h-24">
 		<div class="flex flex-col items-center gap-1 md:flex-row px-4">
 			<p class="text-center text-sm leading-loose text-muted-foreground md:text-left">
 				Developed by
@@ -32,6 +32,9 @@
                 >GPL-3.0</a>
             </p>
             <img src="img/icon/powered_by_strava.svg" class="h-4 inline p-0" title="Powered by Strava" alt="Powered by Strava">        
-		</div>
-	</div>
+    		</div>
+            <span class="text-muted-foreground font-sm">
+                <p class="text-muted-foreground leading-none text-center font-[0.875rem]">Not affiliated with or endorsed by Strava, Inc. STRAVA is a registered trademark of Strava, Inc.</p>
+            </span>
+        </div>
 </footer>
