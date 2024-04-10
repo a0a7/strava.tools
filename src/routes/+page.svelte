@@ -9,6 +9,7 @@
 	import { page } from '$app/stores';
 	console.log($page.data.session);
 	export let onMobile: boolean;
+	import Landing from '$lib/components/Landing.svelte';
 </script>
 
 
@@ -48,6 +49,5 @@
 
 	<meta name="google-site-verification" content="5RpSoSWAxQUXZKIk4xonkx3A_XsZQqN_U0tRTTI0Fe0" />
 </svelte:head>
-<h1 style="position: absolute; visibility: hidden;">
-	Strava.tools data visualization for biking and running.
-</h1>
+
+<Landing />

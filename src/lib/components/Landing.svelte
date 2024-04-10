@@ -1,22 +1,22 @@
 <script lang="ts">
-	import { mode, toggleMode } from 'mode-watcher';
-    import { onMount } from 'svelte';
-    export let onMobile: boolean | undefined = undefined;
-    
-    let hostname = './';
-    onMount(() => {
-        hostname = window.location.origin;
-    });
+	import * as Card from '$lib/components/ui/card';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert'; // @ts-expect-error: this import does exist
+	import { signIn } from '@auth/sveltekit/client';
+	import '$lib/components/sidebar/svg-styles.css';
+
+	export let sessionExpired: boolean = false;
 </script>
-<header 	class="sticky top-0 z-10 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-3 py-2">
-    <div class="flex justify-between flex-line items-center">
-      <button class="inline flex items-top gap-1 hover:opacity-90">
+<div class="flex flex-col justify-center items-center w-full">
+    <div class="flex flex-col items-center justify-center font-bold px-4 pt-24">
+        <h1 class="z-10 text-6xl md:text-[5rem] font-bold">strava.tools</h1>
+        <p class="z-10 text-3xl font-bold md:pt-6">Insights & Visuals</p>
         <svg
-            class="inline text-[#242c34] dark:text-white"
+            class="-mt-[175px] text-card dark:text-border"
             xmlns="http://www.w3.org/2000/svg"
             fill-rule="evenodd"
-            width="32px"
-            height="32px"
+            width="250px"
+            height="250px"
             viewBox="0 0 1350 1350"
             ><path
                 d="M651.2 421.7 464.8 791.4l-39.4 79.2-.6 2.4 73.7-.2 73.7-.3 51.4-98.4 51.7-98.8c.2-.2 23.6 44.1 52 98.4l51.5 98.8 74.2.3 74.2.2-.6-2.3c-1.1-4.6-249.5-495.2-250.8-495.5-.8-.1-9.7 16.7-24.6 46.5"
@@ -26,30 +26,68 @@
                 fill="currentColor"
             /></svg
         >
-        {#if onMobile == false}
-            <h2 class="text-2xl font-bold inline leading-[1.125]">strava.tools</h2>
-        {/if}
-      </button>
-      <nav class="block px-4">
-        <a href={`${hostname}`} class="text-white px-2">Home</a>
-        <!--<a href={`${hostname}/charts`} class="text-white px-2">Map</a>-->
-        <a href={`${hostname}/contact`} class="text-white px-2">Contact</a>
-      </nav>
-      <div class="flex flex-1 flex-row items-center justify-end overflow-clip">
-        <div class="pt-1 overflow-hidden">
-            <a href="https://github.com/syslev/strava.tools/" target="_blank" rel="noreferrer">
-                <button>
-                    <svg class="w-5 h-5 dark:invert" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-                </button>
-            </a>
-            <button on:click={toggleMode} class="pl-2">
-                {#if $mode === 'dark'}
-                    <img src="img/icon/switch_from_dark.svg" alt="Switch Theme" class="w-5 h-5 dark:invert" title="Switch theme"/>
+    </div>
+    <div class="flex flex-col justify-center pt-6 px-5 max-w-[575px]">
+        <Card.Root>
+            <Card.Header>
+                {#if sessionExpired}
+                    <p>
+                        Your Strava session has expired. Please re-authorize your account to import your activities.
+                    </p>
                 {:else}
-                    <img src="img/icon/switch_from_light.svg" alt="Switch Theme" class="w-5 h-5 dark:invert" title="Switch theme"/>
+                    <p>
+                        To use strava.tools, you will first need to <b
+                            >import your activities from Strava.</b
+                        > Click below to be taken to Strava's authorization page.
+                    </p>
                 {/if}
-            </button>
-        </div>
+            </Card.Header>
+            <Card.Content>
+                <Button
+                    class="bg-[#FC4C02] hover:bg-[#d14002] flex items-center mx-auto px-0 h-10 "
+                    on:click={() => signIn('strava')}
+                >
+                    <img src="img/icon/connect_with_strava.svg" alt="Connect with Strava" class="h-14" />
+                </Button>
+            </Card.Content>
+            <Card.Footer>
+                <Alert.Root>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        aria-label="shield"
+                        class="svg-icon h-4 w-4 inline"
+                    >
+                        <path
+                            d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"
+                        />
+                    </svg>
+                    <Alert.Title><b class="font-large">Worried about privacy?</b></Alert.Title>
+                    <Alert.Description>
+                        <p>
+                            This app doesn't store any of your data, full stop. We are committed to upholding the
+                            highest privacy standard possible--if you want to know more, read our privacy assurance <a
+                                href="https://aes.rip/privacy/"
+                                target="_blank"
+                                rel="noopener noreferrer">here</a
+                            >.
+                        </p>
+                        <p>
+                            This app is <a
+                                href="https://github.com/sudolev/StravaMultiMapper"
+                                target="_blank"
+                                rel="noopener noreferrer">open-source</a
+                            >
+                            under the
+                            <a
+                                href="https://github.com/sudolev/StravaMultiMapper/blob/main/LICENSE"
+                                target="_blank"
+                                rel="noopener noreferrer">GPL-3.0 license</a
+                            >.
+                        </p>
+                    </Alert.Description>
+                </Alert.Root>
+            </Card.Footer>
+        </Card.Root>
     </div>
-    </div>
-  </header>
+</div>

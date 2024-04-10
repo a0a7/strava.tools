@@ -13,15 +13,13 @@
 
 	onMount(() => {
 		onMobile = window.innerWidth <= 768;
+		window.addEventListener('resize', (() => onMobile = window.innerWidth <= 768));
 	});
 </script>
 
 <ModeWatcher themeColors={{ dark: 'black', light: 'white' }} />
 <div class="min-h-screen">
 	<Header {onMobile} />
-	{#if $navigating}
-		<Loading />
-	{/if}
 	<slot {onMobile}/>
 </div>
 <Footer {onMobile} />
