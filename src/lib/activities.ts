@@ -1,4 +1,5 @@
 export interface StravaActivity {
+	[key: string]: any;
 	resource_state: number;
 	athlete: StravaAthlete;
 	name: string;
@@ -14,8 +15,8 @@ export interface StravaActivity {
 	start_date_local: string;
 	timezone: string;
 	utc_offset: number;
-	location_city?: null;
-	location_state?: null;
+	location_city?: string | null;
+	location_state?: string | null;
 	location_country: string;
 	achievement_count: number;
 	kudos_count: number;
@@ -61,3 +62,7 @@ export interface StravaMapObject {
 	summary_polyline: string;
 	resource_state: number;
 }
+
+export type ActivityData = {
+	[key: string]: any[];
+};
