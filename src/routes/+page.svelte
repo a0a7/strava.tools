@@ -19,6 +19,12 @@
 	export let onMobile: boolean;
 	import Landing from '$lib/components/Landing.svelte';
 	import Profile from '$lib/components/Profile.svelte';
+	import GlobalSettings from '$lib/components/GlobalSettings.svelte';
+	let activityTypeFilter: string;
+	let commuteFilter: string;
+	let dateRangeMinFilter: string;
+	let dateRangeMaxFilter: string;
+	let showPrivate: boolean;
 
 	let activities: StravaActivity[] = [], error: string, isClient: boolean;
 
@@ -79,8 +85,29 @@
 	<meta property="og:image" content="" />
 </svelte:head>
 {#if $page.data.session?.user?.image && $page.data.session?.user?.name}
-	<Profile />
-	<Charts {activities} />
+	<div class="flex flex-row items-center justify-center">
+		<Card.Root class="mx-2 mt-3 md:w-[90vw] max-w-[1024px]">
+			<Card.Header class="flex flex-row items-center justify-center">
+				<Profile />
+			</Card.Header>
+			<Card.Content>
+				<Separator class="mb-3 p-0"/>
+				<GlobalSettings
+					{activities}
+					bind:activityTypeFilter
+					bind:commuteFilter
+					bind:dateRangeMinFilter
+					bind:dateRangeMaxFilter
+					bind:showPrivate
+				/>
+				<Separator class="mt-3 mb-1 p-0"/>
+				<Charts {activities} />
+
+			</Card.Content>
+			<Card.Footer>
+			</Card.Footer>
+		</Card.Root>
+	</div>
 {:else}
 	<Landing />
 {/if}

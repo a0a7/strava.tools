@@ -38,7 +38,7 @@
 	}
 </script>
 
-<div class="flex w-full max-w-[320px] flex-col gap-0.5">
+<div class="flex flex-col gap-0.5">
 	<Label for="commute-status-select" class="pl-2 select-none text-sm font-medium"
 		>Filter by Commute Status
 		<div class="transform translate-y-[1px] inline-block">

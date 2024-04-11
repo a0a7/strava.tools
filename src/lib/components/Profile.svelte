@@ -9,8 +9,6 @@
 	import { page } from '$app/stores';
 </script>
 {#if $page.data.session?.user?.image && $page.data.session?.user?.name}
-<Card.Root>
-	<Card.Header class="flex flex-row items-center justify-center">
 	<Avatar.Root class="rounded-xl inline">
 		<Avatar.Image
 			src={$page.data.session.user.image}
@@ -48,11 +46,4 @@
 			</span>
 		</p>
 	</Button>
-</Card.Header>
-<Card.Content>
-	<Separator />
-</Card.Content>
-<Card.Footer>
-</Card.Footer>
-</Card.Root>
 {/if}
