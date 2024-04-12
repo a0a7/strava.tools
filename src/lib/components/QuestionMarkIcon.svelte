@@ -16,8 +16,8 @@
 				>
 			</div>
 		</Tooltip.Trigger>
-		<Tooltip.Content class="bg-card">
-			<p>{content}</p>
+		<Tooltip.Content class="bg-card drop-shadow">
+			<p class="text-center text-foreground">{@html content}</p>
 		</Tooltip.Content>
 	</Tooltip.Root>
 {/if}
