@@ -12,6 +12,7 @@
 	import type { StravaActivity } from '$lib/activities'; // @ts-expect-error: this import does exist
 	import CalendarIcon from 'svelte-radix/Calendar.svelte';
 	import QuestionMarkIcon from '$lib/components/QuestionMarkIcon.svelte';
+	import { onMount } from 'svelte';
 
 	export let activities: StravaActivity[];
 
@@ -23,10 +24,11 @@
 		dateStyle: 'medium'
 	});
 
-	let value: DateRange | undefined = {
+	let value: DateRange = {
 		start: parseDate(earliestDate ? earliestDate.split('T')[0] : '2007-10-31'),
 		end: today(getLocalTimeZone())
 	};
+
 
 	export let startDate;
 	export let endDate;
@@ -34,7 +36,15 @@
 	$: startDate = value?.start?.toString();
 	$: endDate = value?.end?.toString();
 
-	let startValue: DateValue | undefined = undefined;
+	onMount(() => {
+		const dateRange = localStorage.getItem('dateRange');
+
+		if (dateRange !== null) {
+			value = JSON.parse(dateRange);
+		}
+	});
+
+	$: localStorage.setItem('dateRange', JSON.stringify(value));
 </script>
 
 <div class="inline">

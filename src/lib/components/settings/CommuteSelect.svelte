@@ -6,7 +6,7 @@
 	import { Label } from '$lib/components/ui/label/';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { mode } from 'mode-watcher';
 	import QuestionMarkIcon from '$lib/components/QuestionMarkIcon.svelte';
 
@@ -36,6 +36,15 @@
 			document.getElementById(triggerId)?.focus();
 		});
 	}
+
+	onMount(() => {
+		const savedValue = localStorage.getItem('commuteValue');
+		if (savedValue !== null) {
+			value = savedValue;
+		}
+	});
+
+	$: localStorage.setItem('commuteValue', value);
 </script>
 
 <div class="flex flex-col gap-0.5">
@@ -58,7 +67,7 @@
 				<CaretSort class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</Button>
 		</Popover.Trigger>
-		<Popover.Content class="w-[200px]] p-0">
+		<Popover.Content class="w-[200px] p-0">
 			<Command.Root>
 				<Command.Group>
 					{#each commuteStatuses as commuteStatus}
