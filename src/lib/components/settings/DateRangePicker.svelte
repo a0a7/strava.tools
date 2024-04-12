@@ -30,21 +30,28 @@
 	};
 
 
-	export let startDate;
-	export let endDate;
+	export let startDate: string | undefined;
+	export let endDate: string | undefined;
 
 	$: startDate = value?.start?.toString();
 	$: endDate = value?.end?.toString();
 
 	onMount(() => {
-		const dateRange = localStorage.getItem('dateRange');
+		const startDateValue = localStorage.getItem('startDate');
+		const endDateValue = localStorage.getItem('endDate');
 
-		if (dateRange !== null) {
-			value = JSON.parse(dateRange);
+		if (startDateValue !== null && endDateValue !== null) {
+			value = {
+				start: parseDate(startDateValue),
+				end: parseDate(endDateValue)
+			};
 		}
 	});
 
-	$: localStorage.setItem('dateRange', JSON.stringify(value));
+	$: if (typeof window !== 'undefined' && startDate && endDate) {
+		localStorage.setItem('startDate', startDate);
+		localStorage.setItem('endDate', endDate);
+	};
 </script>
 
 <div class="inline">
@@ -109,17 +116,17 @@
 					<CalendarIcon class="w-4 h-4" />
 				</DateRangePicker.Trigger>
 			</DateRangePicker.Input>
-			<DateRangePicker.Content sideOffset={6} transition={flyAndScale} class="z-50">
+			<DateRangePicker.Content sideOffset={6} transition={flyAndScale} class="z-10">
 				<DateRangePicker.Calendar
-					class="mt-6 rounded-15px border border-dark-10 bg-background-alt p-[22px] shadow-popover"
+					class="mt-6 border border-dark-10 bg-background rounded-lg p-[22px] shadow-popover"
 					let:months
 					let:weekdays
 				>
 					<DateRangePicker.Header class="flex items-center justify-between">
 						<DateRangePicker.PrevButton
-							class="inline-flex size-10 items-center justify-center rounded-9px bg-background-alt transition-all hover:bg-muted active:scale-98"
+							class="flex size-10 items-center justify-center rounded-[9px] bg-background-alt transition-all hover:bg-muted active:scale-98"
 						>
-							<div class="w-4 h-4 svg-icon">
+							<div class="w-4 h-4 svg-icon flex items-center justify-center">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
 									><path
 										d="M9.4 278.6c-12.5-12.5-12.5-32.8 0-45.3l128-128c9.2-9.2 22.9-11.9 34.9-6.9s19.8 16.6 19.8 29.6l0 256c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9l-128-128z"
@@ -127,11 +134,11 @@
 								>
 							</div>
 						</DateRangePicker.PrevButton>
-						<DateRangePicker.Heading class="text-[15px] font-medium" />
+						<DateRangePicker.Heading class="text-[16px] font-medium" />
 						<DateRangePicker.NextButton
-							class="inline-flex size-10 items-center justify-center rounded-9px bg-background-alt transition-all hover:bg-muted active:scale-98"
+							class="flex size-10 items-center justify-center rounded-[9px] bg-background-alt transition-all hover:bg-muted active:scale-98"
 						>
-							<div class="w-4 h-4 svg-icon transform rotate-180">
+							<div class="w-4 h-4 svg-icon transform rotate-180 flex items-center justify-center">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
 									><path
 										d="M9.4 278.6c-12.5-12.5-12.5-32.8 0-45.3l128-128c9.2-9.2 22.9-11.9 34.9-6.9s19.8 16.6 19.8 29.6l0 256c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9l-128-128z"
@@ -166,7 +173,7 @@
 														{date}
 														month={month.value}
 														class={cn(
-															'group relative inline-flex size-10 items-center justify-center overflow-visible whitespace-nowrap rounded-9px border border-transparent bg-background bg-transparent p-0 text-sm font-normal text-foreground transition-all hover:border-foreground  focus-visible:!ring-foreground data-[disabled]:pointer-events-none data-[outside-month]:pointer-events-none data-[highlighted]:rounded-none data-[selection-end]:rounded-9px data-[selection-start]:rounded-9px data-[highlighted]:bg-muted data-[selected]:bg-muted data-[selection-end]:bg-foreground data-[selection-start]:bg-foreground data-[selected]:font-medium data-[selection-end]:font-medium data-[selection-start]:font-medium data-[disabled]:text-foreground/30 data-[selected]:text-foreground data-[selection-end]:text-background data-[selection-start]:text-background data-[unavailable]:text-muted-foreground data-[unavailable]:line-through data-[selection-start]:focus-visible:ring-2 data-[selection-start]:focus-visible:!ring-offset-2 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:border-foreground data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-0 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-offset-0'
+															'group relative inline-flex size-10 items-center justify-center overflow-visible whitespace-nowrap rounded-[9px] border border-transparent bg-background bg-transparent p-0 text-sm font-normal text-foreground transition-all hover:border-foreground  focus-visible:!ring-foreground data-[disabled]:pointer-events-none data-[outside-month]:pointer-events-none data-[highlighted]:rounded-none data-[selection-end]:rounded-[9px] data-[selection-start]:rounded-[9px] data-[highlighted]:bg-muted data-[selected]:bg-muted data-[selection-end]:bg-foreground data-[selection-start]:bg-foreground data-[selected]:font-medium data-[selection-end]:font-medium data-[selection-start]:font-medium data-[disabled]:text-foreground/30 data-[selected]:text-foreground data-[selection-end]:text-background data-[selection-start]:text-background data-[unavailable]:text-muted-foreground data-[unavailable]:line-through data-[selection-start]:focus-visible:ring-2 data-[selection-start]:focus-visible:!ring-offset-2 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:border-foreground data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-0 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-offset-0'
 														)}
 													>
 														<div

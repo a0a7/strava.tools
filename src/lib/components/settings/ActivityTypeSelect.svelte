@@ -122,7 +122,9 @@
 		}
 	});
 
-	$: localStorage.setItem('activityValue', value);
+	$: if (typeof window !== 'undefined' && value) {
+		localStorage.setItem('activityValue', value)
+	};
 </script>
 
 <div class="flex flex-col gap-0.5">

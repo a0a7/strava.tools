@@ -44,7 +44,9 @@
 		}
 	});
 
-	$: localStorage.setItem('colorScheme', value);
+	$: if (typeof window !== 'undefined' && value) {
+		localStorage.setItem('colorScheme', value);
+	};
 </script>
 
 <div class="flex flex-col gap-0.5">

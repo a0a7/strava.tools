@@ -21,7 +21,9 @@
 		}
 	});
 
-	$: localStorage.setItem('radiusSliderValue', value.toString());
+	$: if (typeof window !== 'undefined' && value) {
+		localStorage.setItem('radiusSliderValue', value.toString());
+	};
 </script>
 
 <div class="flex flex-col gap-0.5">
