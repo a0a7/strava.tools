@@ -40,8 +40,8 @@
 <div class="inline">
 	<DateRangePicker.Root bind:value weekdayFormat="short" fixedWeeks={true}>
 		<div class="flex w-fit flex-col gap-0.5">
-			<DateRangePicker.Label class="pl-2 block select-none text-sm font-medium"
-				>Filter by Date
+			<DateRangePicker.Label class="block select-none text-sm font-medium"
+				>Upload Date
 				<div class="transform translate-y-[1px] inline-block">
 					<QuestionMarkIcon content="Filters activities by their start date" />
 				</div>

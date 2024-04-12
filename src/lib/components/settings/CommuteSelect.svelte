@@ -39,8 +39,8 @@
 </script>
 
 <div class="flex flex-col gap-0.5">
-	<Label for="commute-status-select" class="pl-2 select-none text-sm font-medium"
-		>Filter by Commute Status
+	<Label for="commute-status-select" class="select-none text-sm font-medium"
+		>Commute Status
 		<div class="transform translate-y-[1px] inline-block">
 			<QuestionMarkIcon content="Filters activities by their status as a commute or not" />
 		</div></Label

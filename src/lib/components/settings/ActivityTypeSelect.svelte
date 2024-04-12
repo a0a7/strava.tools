@@ -108,8 +108,8 @@
 </script>
 
 <div class="flex flex-col gap-0.5">
-	<Label for="activity-select" class="pl-2 block select-none text-sm font-medium"
-		>Filter by Sport Type
+	<Label for="activity-select" class="block select-none text-sm font-medium"
+		>Sport Type
 		<div class="transform translate-y-[1px] inline-block">
 			<QuestionMarkIcon content="Filters activities by their reported sport types" />
 		</div>
