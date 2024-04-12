@@ -9,17 +9,17 @@
 
 	let onMobile: boolean;
 
-	$: deviceTypeKnown = typeof onMobile !== 'undefined';
-
 	onMount(() => {
-		onMobile = window.innerWidth <= 768;
-		window.addEventListener('resize', (() => onMobile = window.innerWidth <= 768));
+		const mediaQuery = window.matchMedia('(max-width: 768px)');
+		onMobile = mediaQuery.matches;
+		mediaQuery.addEventListener('change', (mediaQuery) => {
+			onMobile = mediaQuery.matches;
+		});
 	});
 </script>
-
 <ModeWatcher themeColors={{ dark: 'black', light: 'white' }} />
 <div class="min-h-screen">
 	<Header {onMobile} />
-	<slot {onMobile}/>
+	<slot />
 </div>
 <Footer {onMobile} />

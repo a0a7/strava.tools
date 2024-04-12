@@ -1,25 +1,30 @@
 <script lang="ts">
-	import Loading from '$lib/components/Loading.svelte';
-	import type { PaneAPI } from 'paneforge';
-	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
-	import '$lib/components/sidebar/resizable-handle.css';
-	import Footer from '$lib/components/sidebar/Footer.svelte';
+	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte'; // @ts-expect-error: Exists
 	import { signOut } from '@auth/sveltekit/client';
-	import Header from '$lib/components/Header.svelte';
-	import * as Card from '$lib/components/ui/card';
-	import * as Avatar from '$lib/components/ui/avatar';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import { Separator } from '$lib/components/ui/separator';
-	import Charts from '$lib/components/Charts.svelte';
+	import { page } from '$app/stores';
+
 	import type { StravaActivity } from '$lib/activities.js'
 
-	import { page } from '$app/stores';
-	console.log($page.data.session);
-	export let onMobile: boolean;
+	import * as Card from '$lib/components/ui/card';
+	import * as Avatar from '$lib/components/ui/avatar';
+	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { Separator } from '$lib/components/ui/separator';
+
+	import Footer from '$lib/components/sidebar/Footer.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import Charts from '$lib/components/Charts.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import '$lib/components/sidebar/resizable-handle.css';
 	import Landing from '$lib/components/Landing.svelte';
 	import Profile from '$lib/components/Profile.svelte';
 	import GlobalSettings from '$lib/components/GlobalSettings.svelte';
+
+	let onMobile: boolean;
+
+	let showConfig = false;
+	let showSettings = false;
 	let activityTypeFilter: string;
 	let commuteFilter: string;
 	let dateRangeMinFilter: string;
@@ -64,6 +69,11 @@
 		if (localStorage.getItem('activities')) {
 			activities = JSON.parse(localStorage.getItem('activities')!);
 		}
+		const mediaQuery = window.matchMedia('(max-width: 768px)');
+		onMobile = mediaQuery.matches;
+		mediaQuery.addEventListener('change', (mediaQuery) => {
+			onMobile = mediaQuery.matches;
+		});
 	});
 	$: if (isClient && $page.data?.session) {
 		if (activities.length == 0) {
@@ -92,15 +102,50 @@
 			</Card.Header>
 			<Card.Content>
 				<Separator class="mb-3 p-0"/>
-				<GlobalSettings
-					{activities}
-					bind:activityTypeFilter
-					bind:commuteFilter
-					bind:dateRangeMinFilter
-					bind:dateRangeMaxFilter
-					bind:showPrivate
-				/>
+				<div>
+					<h2 class="font-bold text-2xl pb-1">
+						{#if onMobile == true}
+							<button class="cursor-pointer" on:click={() => showConfig = !showConfig}>
+								<svg class={`text-foreground w-5 h-5 inline ${showConfig ? "rotate-180 -translate-y-1" : "rotate-90 -translate-y-0.5" }`} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+								Filter Activities
+							</button>
+						{:else}
+							Filter Activities
+						{/if}
+					</h2>
+					{#if !onMobile || showConfig}
+						<div class="w-full flex flex-row flex-wrap gap-3 md:pl-4" transition:slide>
+							<GlobalSettings
+								{activities}
+								bind:activityTypeFilter
+								bind:commuteFilter
+								bind:dateRangeMinFilter
+								bind:dateRangeMaxFilter
+								bind:showPrivate
+							/> 
+						</div>
+					{/if}
+				</div>
 				<Separator class="mt-3 mb-1 p-0"/>
+				<div>
+					<h2 class="font-bold text-2xl pb-1">
+						{#if onMobile == true}
+							<button class="cursor-pointer" on:click={() => showSettings = !showSettings}>
+								<svg class={`text-foreground w-5 h-5 inline ${showSettings ? "rotate-180 -translate-y-1" : "rotate-90 -translate-y-0.5" }`} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+								Global Settings
+							</button>
+						{:else}
+							Global Settings
+						{/if}
+					</h2>
+					{#if !onMobile || showSettings}
+						<div class="w-full flex flex-row flex-wrap gap-3 md:pl-4" transition:slide>
+							
+						</div>
+					{/if}
+				</div>
+				<Separator class="mt-3 mb-1 p-0"/>
+
 				<Charts {activities} />
 
 			</Card.Content>
