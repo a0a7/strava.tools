@@ -9,6 +9,15 @@
 	import Check from 'svelte-radix/Check.svelte'; // @ts-expect-error: this import does exist
 	import CaretSort from 'svelte-radix/CaretSort.svelte';
 	import QuestionMarkIcon from '$lib/components/QuestionMarkIcon.svelte';
+	import type { StravaActivity } from '$lib/activities.js';
+	import { onMount } from 'svelte';
+	export let activities: StravaActivity[];
+
+	let uniqueActivityTypes: string[];
+
+	$: if (activities) {
+		uniqueActivityTypes = [...new Set(activities.map(activity => activity.type))];
+	};
 
 	const activityList = [
 		'Run',
@@ -105,13 +114,22 @@
 			document.getElementById(triggerId)?.focus();
 		});
 	}
+
+	onMount(() => {
+		const savedValue = localStorage.getItem('activityValue');
+		if (savedValue !== null) {
+			value = savedValue;
+		}
+	});
+
+	$: localStorage.setItem('activityValue', value);
 </script>
 
 <div class="flex flex-col gap-0.5">
 	<Label for="activity-select" class="block select-none text-sm font-medium"
 		>Sport Type
 		<div class="transform translate-y-[1px] inline-block">
-			<QuestionMarkIcon content="Filters activities by their reported sport types" />
+			<QuestionMarkIcon content="Filters activities by their reported sport types.<br>Only types that you've uploaded to Strava are available to select." />
 		</div>
 	</Label>
 
@@ -145,7 +163,9 @@
 						</Command.Item>
 					</Command.Group>
 					<Command.Group heading="Groups">
-						{#each activityGroupings.slice(1, 7) as activityGroup}
+						{#each activityGroupings.slice(1, 7).filter(activityGroup => 
+							uniqueActivityTypes.some(type => activityGroup.activityTypes.split('-').includes(type))
+						  ) as activityGroup}
 							<Command.Item
 								value={activityGroup.activityTypes}
 								onSelect={(currentValue) => {
@@ -169,7 +189,9 @@
 						{/each}
 					</Command.Group>
 					<Command.Group heading="Individual Types">
-						{#each activityGroupings.slice(7, activityGroupings.length) as activityGroup}
+						{#each activityGroupings.slice(7, activityGroupings.length).filter(activityGroup => 
+							uniqueActivityTypes.some(type => activityGroup.activityTypes.split('-').includes(type))
+						  ) as activityGroup}
 							<Command.Item
 								value={activityGroup.activityTypes}
 								onSelect={(currentValue) => {

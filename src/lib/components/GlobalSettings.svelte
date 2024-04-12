@@ -16,7 +16,7 @@
 </script>
 
 <div class="flex flex-row gap-3">
-	<ActivityTypeSelect bind:value={activityTypeFilter} />
+	<ActivityTypeSelect {activities} bind:value={activityTypeFilter} />
 	<CommuteSelect bind:value={commuteFilter} />
 </div>
 <div class="flex flex-row gap-3">
