@@ -33,8 +33,8 @@
             </p>
             <img src="img/icon/powered_by_strava.svg" class="h-4 inline p-0" title="Powered by Strava" alt="Powered by Strava">        
     		</div>
-            <span class="text-muted-foreground font-sm">
-                <p class="text-muted-foreground leading-none text-center font-[0.875rem]">Not affiliated with or endorsed by Strava, Inc. STRAVA is a registered trademark of Strava, Inc.</p>
+            <span class="text-muted-foreground text-sm">
+                <p class="text-muted-foreground leading-none text-center text-sm">Not affiliated with or endorsed by Strava, Inc. STRAVA is a registered trademark of Strava, Inc.</p>
             </span>
         </div>
 </footer>
