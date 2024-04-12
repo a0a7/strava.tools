@@ -2,13 +2,12 @@
     import type { StravaActivity } from '$lib/activities.js'
     import ChartContainer from '$lib/components/charts/chart-primitive.svelte'
     import * as Plot from "@observablehq/plot";
-    import * as d3 from 'd3';
     export let activities: StravaActivity[];
 
     let chart: HTMLDivElement;
 
     $: if (activities && activities[0]) {
-        chart?.firstChild?.remove();
+        chart.innerHTML = '';
         chart?.append( // @ts-ignore
             Plot.rectY(activities, Plot.binX({y: "count" }, {x: (d) => Math.sqrt(d.distance || NaN)})).plot()
         );

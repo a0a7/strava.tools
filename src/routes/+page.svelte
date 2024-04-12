@@ -149,7 +149,7 @@
 				</div>
 				<Separator class="mt-3 mb-1 p-0"/>
 
-				<Charts {activities} />
+				<Charts {activities} {activityTypeFilter} {commuteFilter} {dateRangeMinFilter} {dateRangeMaxFilter} {showPrivate} {scale} {colorScheme}/>
 
 			</Card.Content>
 			<Card.Footer>
