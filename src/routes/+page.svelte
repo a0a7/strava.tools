@@ -20,6 +20,7 @@
 	import Landing from '$lib/components/Landing.svelte';
 	import Profile from '$lib/components/Profile.svelte';
 	import GlobalSettings from '$lib/components/GlobalSettings.svelte';
+	import GlobalConfig from '$lib/components/GlobalConfig.svelte';
 
 	let onMobile: boolean;
 
@@ -30,7 +31,7 @@
 	let dateRangeMinFilter: string;
 	let dateRangeMaxFilter: string;
 	let showPrivate: boolean;
-
+	let scale: string, colorScheme: string;
 	let activities: StravaActivity[] = [], error: string, isClient: boolean;
 
 	async function getActivities() {
@@ -140,7 +141,9 @@
 					</h2>
 					{#if !onMobile || showSettings}
 						<div class="w-full flex flex-row flex-wrap gap-3 md:pl-4" transition:slide>
-							
+							<GlobalConfig
+								bind:colorScheme
+							/>
 						</div>
 					{/if}
 				</div>
