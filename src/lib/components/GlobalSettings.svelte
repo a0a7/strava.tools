@@ -15,10 +15,11 @@
 	export let showPrivate: boolean = true;                    
 </script>
 
-<div class="w-full flex md:flex-row gap-3">
+<div class="flex flex-row gap-3">
 	<ActivityTypeSelect bind:value={activityTypeFilter} />
 	<CommuteSelect bind:value={commuteFilter} />
-
+</div>
+<div class="flex flex-row gap-3">
 	<DateRangePicker
 		{activities}
 		bind:startDate={dateRangeMinFilter}
@@ -34,5 +35,4 @@
 			class="data-[state=checked]:bg-secondary"
 		/>
 	</div>
-	<Separator class="w-auto" />
 </div>
