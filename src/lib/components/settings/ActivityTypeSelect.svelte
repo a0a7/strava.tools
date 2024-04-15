@@ -103,7 +103,7 @@
 	}
 
 	let open = false;
-	export let value = activityGroupings[0].activityTypes;
+	export let value: string;
 
 	$: selectedValue =
 		activityGroupings.find((f) => f.activityTypes === value)?.label ?? activityGroupings[0].label;
@@ -119,6 +119,8 @@
 		const savedValue = localStorage.getItem('activityValue');
 		if (savedValue !== null) {
 			value = savedValue;
+		} else {
+			value = activityGroupings[0].activityTypes;
 		}
 	});
 

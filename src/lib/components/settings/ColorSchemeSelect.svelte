@@ -26,7 +26,7 @@
 	];
 
 	let open = false;
-	export let value = colorSchemes[0].value;
+	export let value: string;
 
 	$: selectedValue = colorSchemes.find((f) => f.value === value)?.label;
 
@@ -41,6 +41,8 @@
 
 		if (selectedValue !== null) {
 			value = selectedValue;
+		} else {
+			value = colorSchemes[0].value;
 		}
 	});
 

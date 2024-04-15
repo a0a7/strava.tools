@@ -26,7 +26,7 @@
 	];
 
 	let open = false;
-	export let value = commuteStatuses[0].value;
+	export let value: string;
 
 	$: selectedValue = commuteStatuses.find((f) => f.value === value)?.label;
 
@@ -41,6 +41,8 @@
 		const savedValue = localStorage.getItem('commuteValue');
 		if (savedValue !== null) {
 			value = savedValue;
+		} else {
+			value = commuteStatuses[0].value;
 		}
 	});
 

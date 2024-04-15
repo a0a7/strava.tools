@@ -6,7 +6,7 @@
 	import { Label } from '$lib/components/ui/label/';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { mode } from 'mode-watcher';
 	import QuestionMarkIcon from '$lib/components/QuestionMarkIcon.svelte';
 
@@ -26,7 +26,7 @@
 	];
 
 	let open = false;
-	export let value = scales[0].value;
+	export let value: string;
 
 	$: selectedValue = scales.find((f) => f.value === value)?.label;
 
@@ -36,6 +36,15 @@
 			document.getElementById(triggerId)?.focus();
 		});
 	}
+	onMount(() => {
+		const selectedValue = localStorage.getItem('scaleValue');
+
+		if (selectedValue !== null) {
+			value = selectedValue;
+		} else {
+			value = scales[0].value;
+		}
+	});
 </script>
 
 <div class="flex flex-col gap-0.5">
