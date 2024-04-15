@@ -21,16 +21,18 @@
 	import Profile from '$lib/components/Profile.svelte';
 	import GlobalSettings from '$lib/components/GlobalSettings.svelte';
 	import GlobalConfig from '$lib/components/GlobalConfig.svelte';
+	import TypeSelector from '$lib/components/TypeSelector.svelte';
 
 	let onMobile: boolean;
 
-	let showConfig = false;
-	let showSettings = false;
+	let showConfig = false, showSettings = false, showTypeSelect = false;
 	let activityTypeFilter: string;
 	let commuteFilter: string;
 	let dateRangeMinFilter: string;
+	let rounding: number;
 	let dateRangeMaxFilter: string;
 	let showPrivate: boolean;
+	let graphType: string;
 	let scale: string, colorScheme: string;
 	let activities: StravaActivity[] = [], error: string, isClient: boolean;
 
@@ -97,11 +99,11 @@
 </svelte:head>
 {#if $page.data.session?.user?.image && $page.data.session?.user?.name}
 	<div class="flex flex-row items-center justify-center">
-		<Card.Root class="mx-2 mt-3 md:w-[90vw] max-w-[1024px]">
+		<Card.Root class="mx-2 mt-3 w-[90vw] max-w-[1024px] ">
 			<Card.Header class="flex flex-row items-center justify-center">
 				<Profile />
 			</Card.Header>
-			<Card.Content>
+			<Card.Content class="max-w-full">
 				<Separator class="mb-3 p-0"/>
 				<div>
 					<h2 class="font-bold text-2xl pb-1">
@@ -142,14 +144,33 @@
 					{#if !onMobile || showSettings}
 						<div class="w-full flex flex-row flex-wrap gap-3 md:pl-4" transition:slide>
 							<GlobalConfig
+								bind:rounding
 								bind:colorScheme
 							/>
 						</div>
 					{/if}
 				</div>
 				<Separator class="mt-3 mb-1 p-0"/>
+				<div class="max-w-full">
+					<h2 class="font-bold text-2xl pb-1">
+						{#if onMobile == true}
+							<button class="cursor-pointer" on:click={() => showTypeSelect = !showTypeSelect}>
+								<svg class={`text-foreground w-5 h-5 inline ${showTypeSelect ? "rotate-180 -translate-y-1" : "rotate-90 -translate-y-0.5" }`} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+								Show charts visualizing...
+							</button>
+						{:else}
+							Show charts visualizing...
+						{/if}
+					</h2>
+					{#if !onMobile || showTypeSelect}
+						<div class="max-w-full" transition:slide>
+							<TypeSelector value={graphType}/>
+						</div>
+					{/if}
+				</div>
+				<Separator class="mt-3 mb-1 p-0"/>
 
-				<Charts {activities} {activityTypeFilter} {commuteFilter} {dateRangeMinFilter} {dateRangeMaxFilter} {showPrivate} {scale} {colorScheme}/>
+				<Charts {graphType} {activities} {activityTypeFilter} {commuteFilter} {dateRangeMinFilter} {dateRangeMaxFilter} {showPrivate} {scale} {colorScheme} {rounding}/>
 
 			</Card.Content>
 			<Card.Footer>

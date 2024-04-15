@@ -6,12 +6,16 @@
 	import RadiusSlider from './settings/RadiusSlider.svelte';
 	export let colorScheme: string;
 	export let showPrivate: boolean = true; 
-	export let rounding: number = 0;                   
+	let roundingArray: number[];
+	export let rounding: number;    
+	$: if (roundingArray) {
+		rounding = roundingArray[0];
+	};               
 </script>
 
 <div class="flex flex-row gap-3">
 	<ColorSchemeSelect bind:value={colorScheme} />
-	<RadiusSlider bind:value={rounding}/>
+	<RadiusSlider bind:value={roundingArray}/>
 </div>
 <div class="flex flex-row gap-3">
 	<div class="pl-2 pt-1 flex flex-col gap-0.5">
