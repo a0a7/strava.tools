@@ -6,14 +6,36 @@
 
     let chart: HTMLDivElement;
 
-    $: if (activities && activities[0]) {
+    $: if (activities && activities[0] && chart) {
         chart.innerHTML = '';
         chart?.append( // @ts-ignore
-            Plot.rectY(activities, Plot.binX({y: "count" }, {x: (d) => Math.sqrt(d.distance || NaN)})).plot()
+            Plot.rectY(
+                activities, 
+                Plot.binX(
+                    {y: "count" },
+                    {x: (d) => Math.sqrt(d.distance || NaN)}
+                )
+            ).plot({x: {label: "Distance", transform: (x) => `${(x*x) / 1000} km`},}
+            )
         );
         chart?.append(
-            Plot.rect(activities, Plot.bin({fill: "count"}, {x: (d) => Math.sqrt(d.distance || NaN), y: (d) => Math.sqrt(d.moving_time || NaN)})).plot({color: {type:
-            "threshold", domain: [2, 5, 10, 20, 50, 100], scheme: "plasma", legend: true}}));
+            Plot.rect(
+                activities,
+                Plot.bin({fill: "count"},
+                {
+                    x: (d) => Math.sqrt(d.distance || NaN), 
+                    y: (d) => Math.sqrt(d.moving_time || NaN)
+                })
+            ).plot(
+                {
+                    color: {
+                        type:"threshold", 
+                        domain: [2, 5, 10, 20, 50, 100], 
+                        scheme: "plasma", 
+                        legend: true
+                    }
+                }
+            ));
 
         chart?.append(
             Plot.dot(activities, {
