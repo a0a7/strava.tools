@@ -12,17 +12,19 @@
 	import { mode } from 'mode-watcher';
 	import QuestionMarkIcon from '$lib/components/QuestionMarkIcon.svelte';
 
-	export let value = 0;
+	export let value: number[];
 
 	onMount(() => {
 		const savedValue = localStorage.getItem('radiusSliderValue');
 		if (savedValue !== null) {
-			value = Number(savedValue);
+			value = [Number(savedValue)];
+		} else {
+			value = [0];
 		}
 	});
 
 	$: if (typeof window !== 'undefined' && value) {
-		localStorage.setItem('radiusSliderValue', value.toString());
+		localStorage.setItem('radiusSliderValue', value[0].toString());
 	};
 </script>
 
@@ -33,5 +35,5 @@
 			<QuestionMarkIcon content="Control the corner radius of graph elements" />
 		</div></Label
 	>
-	<Slider id="radius-slider" value={[value]} max={100} step={1} class="w-[200px]i w pt-3 mx-2"/>
+	<Slider id="radius-slider" bind:value max={100} step={1} class="w-[200px]i w pt-3 mx-2"/>
 </div>

@@ -11,6 +11,8 @@
 	export let showPrivate: boolean;
 	export let scale: string;
     export let colorScheme: string;
+    export let graphType: string;
+    export let rounding: number;
 
     let filteredActivities: StravaActivity[] = [];
     $: filteredActivities = activities.filter((activity) => {
