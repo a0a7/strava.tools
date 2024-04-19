@@ -2,6 +2,8 @@
     import type { StravaActivity } from '$lib/activities.js'
 	import { onMount } from 'svelte';
     import FrequencyHistogram from "./charts/FrequencyHistogram.svelte";
+	import SpeedHistogram from './charts/SpeedHistogram.svelte';
+	import DistanceScatter from './charts/DistanceScatter.svelte';
     
     export let activities: StravaActivity[];
 	export let activityTypeFilter: string;
@@ -25,4 +27,9 @@
     });
 </script>
 
-<FrequencyHistogram activities={filteredActivities} />
+<div class="grid grid-cols-1 md:grid-cols-2 gap-1">
+    <FrequencyHistogram activities={filteredActivities} />
+    <DistanceScatter activities={filteredActivities} />
+    <SpeedHistogram activities={filteredActivities} />
+
+</div>

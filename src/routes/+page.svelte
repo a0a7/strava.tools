@@ -168,8 +168,6 @@
 						</div>
 					{/if}
 				</div>
-				<Separator class="mt-3 mb-1 p-0"/>
-
 				<Charts {graphType} {activities} {activityTypeFilter} {commuteFilter} {dateRangeMinFilter} {dateRangeMaxFilter} {showPrivate} {scale} {colorScheme} {rounding}/>
 
 			</Card.Content>
