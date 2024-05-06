@@ -77,7 +77,7 @@
 		"clsx": "^2.1.0",
 		"cmdk-sv": "^0.0.15",
 		"d3": "^7.9.0",
-		"deck.gl": "^9.0.1",
+		"deck.gl": "^9.0.12",
 		"geojson": "^0.5.0",
 		"geojson-polyline": "^1.0.3",
 		"lucide-svelte": "^0.358.0",
